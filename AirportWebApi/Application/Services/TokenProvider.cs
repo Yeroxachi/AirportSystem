@@ -12,28 +12,14 @@ namespace Application.Services;
 public class TokenProvider : ITokenProvider
 {
     private readonly IOptions<AuthOptions> _authOptions;
-    private readonly JwtSecurityTokenHandler _tokenHandler;
-    private readonly TokenValidationParameters _validationParameters;
+ 
 
     public TokenProvider(IOptions<AuthOptions> authOptions)
     {
         _authOptions = authOptions;
-        _tokenHandler = new JwtSecurityTokenHandler();
-        var tokenKey = Encoding.UTF8.GetBytes(_authOptions.Value.Key);
-        _validationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(tokenKey),
-            ValidateIssuer = true,
-            ValidIssuer = _authOptions.Value.Issuer,
-            ValidateAudience = true,
-            ValidAudience = _authOptions.Value.Audience,
-            ClockSkew = TimeSpan.Zero
-        };
-
     }
 
-    public string CreateToken(IList<Claim> claims, TimeSpan lifetime)
+    public string CreateToken(IEnumerable<Claim> claims, TimeSpan lifetime)
     {
         var expirationDate = DateTime.UtcNow.Add(lifetime);
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authOptions.Value.Key));
