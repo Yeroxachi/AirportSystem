@@ -16,8 +16,6 @@ public class AirportContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new FlightConfiguration());
-        modelBuilder.ApplyConfiguration(new CityConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AirportContext).Assembly);
     }
 }

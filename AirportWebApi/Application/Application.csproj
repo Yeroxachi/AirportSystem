@@ -7,11 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="CQRS\Commands\" />
       <Folder Include="CQRS\Queries\" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.2.0" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjectionFixed" Version="5.1.2" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
       <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="6.35.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.35.0" />
@@ -19,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Persistence\Persistence.csproj" />
     </ItemGroup>
 
 </Project>
