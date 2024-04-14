@@ -18,6 +18,11 @@ public class RedisCachePipelineBehavior<TRequest, TResponse> : IPipelineBehavior
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var cacheKey = $"{typeof(TRequest).FullName}:{JsonSerializer.Serialize(request)}";
+
+        if (!cacheKey.Contains("query", StringComparison.OrdinalIgnoreCase))
+        {
+            return await next();
+        }
         
         var cachedResponse = await _cache.GetStringAsync(cacheKey, cancellationToken);
         if (!string.IsNullOrEmpty(cachedResponse))
