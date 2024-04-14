@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.User;
 using Application.Mapper;
 using Application.Response;
 using MediatR;

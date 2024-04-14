@@ -1,9 +1,11 @@
 ﻿using Application.CQRS.Commands;
 using Application.DTOs;
+using Application.DTOs.User;
 using Application.Response;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Filters;
 
 namespace Presentation.Controllers;
 

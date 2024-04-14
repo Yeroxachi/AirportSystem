@@ -3,10 +3,7 @@ using Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseCustomSerilog();
-builder.Services.AddMediatR(configuration =>
-{
-    configuration.RegisterServicesFromAssemblies(Assembly.Load("Application"));
-});
+builder.Services.AddMediator();
 builder.Services.AddAirportDbContext(builder.Configuration);
 builder.Services.AddServicesOptions(builder.Configuration);
 builder.Services.AddCustomServices();

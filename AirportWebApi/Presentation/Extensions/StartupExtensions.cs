@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using Application.Interfaces;
 using Application.Services;
 using Domain.Options;
@@ -122,10 +123,16 @@ public static class StartupExtensions
             config.WriteTo.PostgreSQL(connectionString: logConnectionString, tableName: ConfigurationConstants.LoggingTableName,
                     needAutoCreateTable: true)
                 .MinimumLevel.Information();
-            if (context.HostingEnvironment.IsDevelopment())
-            {
-                config.WriteTo.Console().MinimumLevel.Information();
-            }
         });
+    }
+    
+    public static IServiceCollection AddMediator(this IServiceCollection services) 
+    {
+        services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssemblies(Assembly.Load("Application"));
+        });
+
+        return services;
     }
 }
