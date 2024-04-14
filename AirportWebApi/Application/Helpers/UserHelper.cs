@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Domain.Enums;
 
 namespace Application.Helpers;
 
@@ -15,5 +16,10 @@ public static class UserHelper
         }
 
         return builder.ToString();
+    }
+    
+    public static FlightStatus GetFlightStatus (this string? flightStatus)
+    {
+        return Enum.TryParse<FlightStatus>(flightStatus, out var result) ? result : default;
     }
 }

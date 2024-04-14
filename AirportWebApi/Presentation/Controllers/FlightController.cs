@@ -50,4 +50,13 @@ public class FlightController : BaseController
         var response = await _mediator.Send(new RegistrationToFlightCommand {UserId = HttpContext.UserId(),FlightId = flightId}, cancellationToken);
         return HandleRequest(response);
     }
+
+    [AuthorizeRoles("Admin")]
+    [HttpPut]
+    public async Task<ActionResult<BaseResponse<FlightResponse>>> UpdateFlightAsync([FromBody] UpdateFlightDto dto)
+    {
+        var cancellationToken = HttpContext.RequestAborted;
+        var response = await _mediator.Send(new UpdateFlightCommand {Dto = dto}, cancellationToken);
+        return HandleRequest(response);
+    }
 }

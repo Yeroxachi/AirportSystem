@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Flight;
+using Application.Helpers;
 using Application.Response;
 using Domain.Enums;
 using Domain.Models;
@@ -35,5 +36,14 @@ public static class FlightMapper
     public static IEnumerable<FlightResponse> MapToFlightResponse(this IEnumerable<Flight> flights)
     {
         return flights.Select(f => f.MapToFlightResponse());
+    }
+
+    public static void Update(this Flight flight, UpdateFlightDto dto)
+    {
+        flight.OriginId = dto.OriginId;
+        flight.DestinationId = dto.DestinationId;
+        flight.Departure = dto.DepartureTime;
+        flight.Arrival = dto.ArrivalTime;
+        flight.Status = dto.Status.GetFlightStatus();
     }
 }
