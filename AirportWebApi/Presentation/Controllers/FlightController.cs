@@ -5,6 +5,7 @@ using Application.Response;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Extensions;
 using Presentation.Filters;
 
 namespace Presentation.Controllers;
@@ -17,7 +18,7 @@ public class FlightController : BaseController
     
     [AuthorizeRoles("Admin")]
     [HttpPost]
-    public async Task<ActionResult<BaseResponse<FlightResponse>>> Create([FromBody] CreateFlightDto dto)
+    public async Task<ActionResult<BaseResponse<FlightResponse>>> CreateFlightAsync([FromBody] CreateFlightDto dto)
     {
         var cancellationToken = HttpContext.RequestAborted;
         var response = await _mediator.Send(new CreateFlightCommand {Dto = dto}, cancellationToken);
@@ -25,11 +26,28 @@ public class FlightController : BaseController
     }
 
     [AllowAnonymous]
-    [HttpGet]
-    public async Task<ActionResult<BaseResponse<IEnumerable<FlightResponse>>>> GetAll()
+    [HttpGet("all")]
+    public async Task<ActionResult<BaseResponse<IEnumerable<FlightResponse>>>> GetAllFlightAsync()
     {
         var cancellationToken = HttpContext.RequestAborted;
         var response = await _mediator.Send(new GetAllFlightsQuery(), cancellationToken);
+        return HandleRequest(response);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("{flightId:guid}")]
+    public async Task<ActionResult<BaseResponse<FlightResponse>>> GetFlightByIdAsync([FromQuery] Guid flightId)
+    {
+        var cancellationToken = HttpContext.RequestAborted;
+        var response = await _mediator.Send(new GetFlightByIdQuery {FlightId = flightId}, cancellationToken);
+        return HandleRequest(response);
+    }
+
+    [HttpPost("{flightId:guid}")]
+    public async Task<ActionResult> RegistrationToFlightAsync([FromQuery] Guid flightId)
+    {
+        var cancellationToken = HttpContext.RequestAborted;
+        var response = await _mediator.Send(new RegistrationToFlightCommand {UserId = HttpContext.UserId(),FlightId = flightId}, cancellationToken);
         return HandleRequest(response);
     }
 }

@@ -15,7 +15,7 @@ public class AuthController : BaseController
     
     [AllowAnonymous]
     [HttpPost]
-    public async Task<ActionResult<BaseResponse<TokenResponse>>> Login([FromBody] LoginDto dto)
+    public async Task<ActionResult<BaseResponse<TokenResponse>>> LoginAsync([FromBody] LoginDto dto)
     {
         var cancellationToken = HttpContext.RequestAborted;
         var response = await _mediator.Send(new LoginCommand {Dto = dto}, cancellationToken);

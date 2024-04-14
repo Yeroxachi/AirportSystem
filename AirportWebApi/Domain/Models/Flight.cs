@@ -12,5 +12,5 @@ public class Flight : BaseModel
     public DateTime Departure { get; set; }
     public FlightStatus Status { get; set; }
     
-    public IReadOnlyCollection<User> Clients { get; init; } = new HashSet<User>();
+    public ICollection<User> Clients { get; set; } = new HashSet<User>();
 }

@@ -8,5 +8,5 @@ public class User : BaseModel
     public string PasswordHash { get; init; }
     public UserRole UserRole { get; set; }
     
-    public IReadOnlyCollection<Flight> Flights { get; init; } = new HashSet<Flight>();
+    public ICollection<Flight> Flights { get; set; } = new HashSet<Flight>();
 }
